@@ -9,7 +9,7 @@ import java.math.BigInteger;
 */
 public class RSATest {
 	public static void main(String[] args) {
-		// 公钥私钥中用到的两个大质数p,q'''
+		// 公钥私钥中用到的两个大质数p,q,不要修改'''
 		BigInteger p = new BigInteger("997");
 		BigInteger q = new BigInteger("1009");
 
