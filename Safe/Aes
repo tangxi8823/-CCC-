@@ -421,6 +421,27 @@ public class Aes {
 //		print();
 		return data;
 	}
+	/**
+	 * 解密
+	 * @param cipherText
+	 * @return 
+	 */
+	public String invCipherone(byte[][] buffer){
+		int x1=buffer.length;
+		System.out.println(x1);
+		byte[] ret1[]=new byte[x1][];
+		for(int i=0;i<x1;i++)
+		{
+				ret1[i] = invCipher(buffer[i]);//明文字节
+		}
+		String val = new String(ret1[0]);
+		for(int i=1;i<x1;i++)
+		{
+			String t=new String(ret1[i]);
+			val=val+t;
+		}
+		return val;
+	}
 	String aestring1(String text) throws UnsupportedEncodingException
 	{
 		byte[] cipherText = this.cipher(text.getBytes("utf-8"));
