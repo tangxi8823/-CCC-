@@ -15,20 +15,11 @@ public class AesTest {
 		String plainText = "1wdq2w32242scsdvcszv3rfefeawfew";//明文
 		byte[] buffer[]=aes.cipherone(plainText);
 		//--------解密-------------------------
-		int x1=buffer.length;
-		System.out.println(x1);
-		byte[] ret1[]=new byte[x1][];
-		for(int i=0;i<x1;i++)
-		{
-				ret1[i] = aes.invCipher(buffer[i]);//明文字节
-		}
-		String val = new String(ret1[0]);
-		for(int i=1;i<x1;i++)
-		{
-			String t=new String(ret1[i]);
-			val=val+t;
-		}
+		
+		String val = new String();
+		val=aes.invCipherone(buffer);
 		System.out.println("invCipher cipherText : "+val);
 		
 	}
 }
+
