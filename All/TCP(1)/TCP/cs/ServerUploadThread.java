@@ -1,14 +1,15 @@
-package com.transfer;
+package cs;
 
 import com.safety.Aes;
 
 import java.io.*;
 import java.net.Socket;
 
-public class ServerThread implements Runnable{
+public class ServerUploadThread implements Runnable{
 
     private Socket s;
-    public ServerThread(Socket s) {
+    
+    public ServerUploadThread(Socket s) {
         this.s=s;
     }
 
@@ -28,7 +29,7 @@ public class ServerThread implements Runnable{
             }*/
             //BufferedWriter bw = new BufferedWriter(new FileWriter(file));
             BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-            java.lang.String line;
+            String line;
             while ((line=br.readLine())!=null){
                 bw.write(line);
                 bw.newLine();

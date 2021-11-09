@@ -10,56 +10,78 @@ import java.util.TreeMap;
 public class ChordLoop {
 
 	//没有头节点
-	private Map<Integer,ChordNode> chordLoop=new TreeMap<Integer,ChordNode>();
+	private ChordNode firstnode=null;
 	//int m=4;环上有16个位置
-	private int chordLen=16;
+	private int chordMaxLen=16;
 	//nodeNum记录已映射进来的结点数
 	private int nodeNum=0;
 	
 	//服务器映射到哈希环中
 	public void addNode(Server s) {
+		
 		//根据端口号得到hash值，即在哈希环中的idx
 		int idx=ChordUtils.computeHash(Integer.toString(s.getPort()));
 		//记录了该node的idx，server
-		ChordNode cn=new ChordNode(idx,s);
-		this.chordLoop.put(idx, cn);
+		ChordNode cn=new ChordNode(idx,s.getPort());
+		if(nodeNum>=16) {
+			System.out.println("环已满，无法添加！");
+			return;
+		}else if(nodeNum==0) {
+			//添加第一个结点
+			cn.setSuccessor(cn);
+			firstnode=cn;
+		}else {
+			//若cn应该插入第一个结点，则需要修改环上的尾结点
+			if(cn.getNodeIdx()<firstnode.getNodeIdx()) {
+				getLastNode().setSuccessor(cn);
+				cn.setSuccessor(firstnode);
+				firstnode=cn;
+			}else {
+				ChordNode prenode=firstnode;
+				ChordNode curnode=firstnode.getSuccessor();
+				while(cn.getNodeIdx()>curnode.getNodeIdx()&&curnode!=firstnode) {
+					prenode=cn;
+					cn=cn.getSuccessor();
+				}
+				prenode.setSuccessor(cn);
+				cn.setSuccessor(curnode);
+			}
+		}
 		nodeNum++;
 	}
 	
+	private ChordNode getLastNode() {
+		ChordNode curnode=firstnode;
+		while(curnode.getSuccessor()!=firstnode) {
+			curnode=curnode.getSuccessor();
+		}
+		return curnode;
+	}
+	
 	//根据文件讯息得到该文件应该存放的Server
-	public Server findServerByFile(String f) {
+	public int findServerByFile(String f) {
 		int fkey=ChordUtils.computeHash(f);
-		ChordNode node=null;
-		for (Integer i : chordLoop.keySet()) {
-			node=chordLoop.get(i);
-			if(fkey>=i)
-				break;
+		ChordNode curnode=firstnode;
+		while(curnode.getNodeIdx()<fkey) {
+			curnode=curnode.getSuccessor();
 		}
-		return node.getServer();
+		return curnode.getServerAdr();
 	}
 	
-	public Server findFile(String fileName) {
-		int fkey=ChordUtils.computeHash(f);
-		ChordNode node=null;
-		for (Integer i : chordLoop.keySet()) {
-			node=chordLoop.get(i);
-			if(fkey>=i)
-				break;
-		}
-		return node.getServer();
+
+	public ChordNode getFirstnode() {
+		return firstnode;
 	}
-	
-	public Map<Integer, ChordNode> getChordLoop() {
-		return chordLoop;
+
+	public int getChordMaxLen() {
+		return chordMaxLen;
 	}
-	public void setChordLoop(Map<Integer, ChordNode> chordLoop) {
-		chordLoop = chordLoop;
-	}
+
 	public int getChordLen() {
-		return chordLen;
+		return chordMaxLen;
 	}
 	public void setChordLen(int chordLen) {
-		this.chordLen = chordLen;
+		this.chordMaxLen = chordLen;
 	}
 	public int getNodeNum() {
 		return nodeNum;

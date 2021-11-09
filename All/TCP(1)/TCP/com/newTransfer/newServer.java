@@ -11,8 +11,10 @@ import java.util.Arrays;
 public class newServer {
     public static void main(String[] args){
         System.out.println("Socket开始运行");
+        //AES算法实例化时需要的k
         int k=34131231;
         try {
+        	//这个服务器的端口
             ServerSocket server = new ServerSocket(8088);
             while(true){
                 // 阻塞等待，每接收到一个请求就创建一个新的连接实例
