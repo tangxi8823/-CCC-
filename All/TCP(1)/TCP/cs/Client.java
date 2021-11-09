@@ -22,6 +22,7 @@ public class Client {
         String str = sc.next();
         String f = sc.next();
         File f;
+        
         if(str=="upload") {
         	//用f创建一个新文件
         	new Thread(new ClientUploadThread(s)).start();
@@ -29,6 +30,7 @@ public class Client {
         	new Thread(new ClientDownloadThread(s)).start();
         }
 	}
+	
 	public int getPort() {
 		return port;
 	}

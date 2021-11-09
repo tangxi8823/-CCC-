@@ -18,6 +18,7 @@ public class Server {
         while (true) {
             //监听客户端连接
             Socket s = ss.accept();
+            //
             new Thread(new ServerUploadThread(s)).start();
         }
     }
