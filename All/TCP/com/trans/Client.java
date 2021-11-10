@@ -23,7 +23,7 @@ public class Client {
     }
 
     public void clientRun(){
-        while(!connection_state){
+       // while(!connection_state){
             connect();
             String fileName = "grapes.png";
             //查询
@@ -33,11 +33,13 @@ public class Client {
             }catch (Exception e){
                 e.printStackTrace();
             }
-        }
+        //}
     }
 
     public void clientRun2(){
-        while(!connection_state){
+        System.out.println("panda");
+        //while(connection_state){
+            System.out.println("monkey");
             connect();
             String fileName = "grapes.png";
             //下载
@@ -48,7 +50,7 @@ public class Client {
             }catch (Exception e){
                 e.printStackTrace();
             }
-        }
+        //}
     }
     //创建与服务器端的连接
     public static void connect(){
@@ -76,11 +78,11 @@ public class Client {
 
     public static void main(String[] args) throws IOException {
     	//随机更好 待
-        Client c1 = new Client(60088);
+        Client c1 = new Client(50088);
         c1.clientRun();
-        System.out.println("4");
-        c1.clientRun2();
+        System.out.println("4.与真实端口建立连接:"+getPort());
+        Client c2 = new Client(port);
+        c2.clientRun2();
         System.out.println("5");
     }
 }
- 

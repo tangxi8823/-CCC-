@@ -43,9 +43,9 @@ public class Server {
     public static void main(String[] args) throws IOException {
     	//初始化哈希环，
       	TCPproperties.cloop=new ChordLoop(); 
-    	Server server1 = new Server(60088);
-    	Server server2 = new Server(60090);
-    	Server server3 = new Server(60092);
+    	Server server1 = new Server(50088);
+    	Server server2 = new Server(50090);
+    	Server server3 = new Server(50092);
     	//将服务器映射到哈希环里
     	TCPproperties.cloop.addNode(server1); 
     	TCPproperties.cloop.addNode(server2); 
