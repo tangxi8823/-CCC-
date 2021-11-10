@@ -42,18 +42,20 @@ public class clientFindServer implements Runnable{
             //客户端接收反馈
             BufferedReader brClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String data = brClient.readLine();
-            System.out.println("2.真实服务器端口号:"+data);//fileName瑙ｆ瀽鎴愬姛
+            System.out.println("2.真实服务器端口号:"+data);
+            //给客户端设定下次连接的服务地地址
+            Client.setPort(Integer.parseInt(data));
 
             //释放资源
             socket.close();
-            Client.connection_state = false;
-            Client.reconnect();
+  //          Client.connection_state = false;
+ //           Client.reconnect();
             br.close();
             System.out.println("3.clientFndServer线程结束");
 
             //此处先写死
-            System.out.println("4.准备接收服务器端发来的ku");
-            new Thread(new ClientRecvKU(socket,60088));
+            //System.out.println("4.准备接收服务器端发来的ku");
+            //new Thread(new ClientRecvKU(socket,Integer.parseInt(data)));
         }catch (IOException e){
             e.printStackTrace();
         }

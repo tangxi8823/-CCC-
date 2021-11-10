@@ -14,12 +14,20 @@ public class Client {
         this.port = port;
     }
 
+    public static int getPort() {
+        return port;
+    }
+
+    public static void setPort(int port) {
+        Client.port = port;
+    }
+
     public void clientRun(){
         while(!connection_state){
             connect();
             String fileName = "grapes.png";
-            //查询
-            new Thread(new clientFindServer(socket,fileName)).start();
+            //查询
+            new Thread(new clientFindServer(socket,"[1]"+fileName)).start();
             try {
                 Thread.sleep(3000);
             }catch (Exception e){
@@ -28,11 +36,26 @@ public class Client {
         }
     }
 
+    public void clientRun2(){
+        while(!connection_state){
+            connect();
+            String fileName = "grapes.png";
+            //下载
+            System.out.println("下载！！！！！！");
+            new Thread(new clientDownloadFile(socket,"[2]"+fileName)).start();
+            try {
+                Thread.sleep(3000);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
     //创建与服务器端的连接
     public static void connect(){
         try{
             socket = new Socket(TCPproperties.ip,port);
             connection_state = true;
+            System.out.println("###连接成功");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -55,5 +78,9 @@ public class Client {
     	//随机更好 待
         Client c1 = new Client(60088);
         c1.clientRun();
+        System.out.println("4");
+        c1.clientRun2();
+        System.out.println("5");
     }
 }
+ 

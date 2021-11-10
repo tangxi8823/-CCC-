@@ -1,7 +1,9 @@
 package com.trans;
 
+import com.safety.Aes;
 import com.safety.RSA;
 
+import java.io.*;
 import java.math.BigInteger;
 import java.net.Socket;
 
@@ -16,19 +18,26 @@ public class serverSendFile implements Runnable{
 
     @Override
     public void run() {
-        //---------------生成RSA公私钥对，并传输私钥--------------------
-        // 公钥私钥中用到的两个大质数p,q,不要修改'''
-        BigInteger p = new BigInteger("997");
-        BigInteger q = new BigInteger("1009");
-        RSA rsa = new RSA();
+    //AES的k
+        int k=34131231;//k是密匙
+        Aes aes = new Aes(k);//输入密匙创建Aes算法
+        byte[] cipher =  aes.cipher("".getBytes());
+        //封装文本文件数据
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("C:Users/79361/Desktop/images/grapes.png"));
+            BufferedWriter bw= new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+            String line;
+            while((line = br.readLine())!=null){
+                bw.write(new String(aes.cipher(line.getBytes())));
+                bw.newLine();
+                bw.flush();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        // 生成公钥私钥
-        BigInteger[][] keys = rsa.genKey(p, q);
-        BigInteger[] pubkey = keys[0];
-        BigInteger[] selfkey = keys[1];
-
-        //传输RSA公钥
-        new Thread(new serverSendKU(socket,pubkey)).start();
 
     }
 }

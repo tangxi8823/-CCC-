@@ -37,6 +37,7 @@ public class Server {
             Socket s = ss.accept();
             //确认文件是否在本服务器端
             new Thread(new serverAssertFile(ss,s,port)).start();
+
         }
     }
     public static void main(String[] args) throws IOException {

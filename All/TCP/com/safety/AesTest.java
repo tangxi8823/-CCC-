@@ -15,6 +15,7 @@ public class AesTest {
         String plainText = "1wdq2w32242scsdvcszv3rfefeawfew";//明文
         byte[] buffer[]=aes.cipherone(plainText);
         //--------解密-------------------------
+        //aes.cipher()
 
         String val = new String();
         val=aes.invCipherone(buffer);
