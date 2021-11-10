@@ -21,6 +21,7 @@ public class ChordLoop {
 		
 		//根据端口号得到hash值，即在哈希环中的idx
 		int idx=ChordUtils.computeHash(Integer.toString(s.getPort()));
+		System.out.println(s.getPort()+"-indx: "+idx);
 		//记录了该node的idx，server
 		ChordNode cn=new ChordNode(idx,s.getPort());
 		if(nodeNum>=16) {
@@ -48,6 +49,7 @@ public class ChordLoop {
 			}
 		}
 		nodeNum++;
+		printChordLoop();
 	}
 	
 	private ChordNode getLastNode() {
@@ -58,9 +60,19 @@ public class ChordLoop {
 		return curnode;
 	}
 	
+	private void printChordLoop() {
+		ChordNode curnode=firstnode;
+		System.out.println(curnode.getServerAdr()+" "+curnode.getNodeIdx());
+		curnode=curnode.getSuccessor();
+		while(curnode!=firstnode) {
+			System.out.println(curnode.getServerAdr()+" "+curnode.getNodeIdx());
+			curnode=curnode.getSuccessor();
+		}
+	}
 	//根据文件讯息得到该文件应该存放的Server
 	public int findServerByFile(String f) {
 		int fkey=ChordUtils.computeHash(f);
+		System.out.println(f+"-indx: "+fkey);
 		ChordNode curnode=firstnode;
 		while(curnode.getNodeIdx()<fkey) {
 			curnode=curnode.getSuccessor();

@@ -13,7 +13,7 @@ abstract public class ChordUtils {
         int r=-1;
         try {
         	// 得到MD5的instance
-            MessageDigest md = MessageDigest.getInstance("MD5");
+            MessageDigest md = MessageDigest.getInstance("SHA-1");
             md.reset();
             //md5会返回hash值（byte数组） 16*8=128位
             byte[] init_code = md.digest(input.getBytes());

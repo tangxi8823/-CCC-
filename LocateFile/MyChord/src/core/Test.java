@@ -12,15 +12,19 @@ public class Test {
 
 	public static void main(String[] args) {
 		
-		//初始化哈希环，将服务器映射到哈希环里
+		//初始化哈希环，
 		ChordLoop cloop=new ChordLoop(); 
-		Server s1 = new Server(8801); 
-		Server s2 = new Server(8802);
-		Server s3 = new Server(8803); 
+		Server s1 = new Server(8088); 
+		Server s2 = new Server(8090);
+		Server s3 = new Server(8092); 
+		//将服务器映射到哈希环里
 		cloop.addNode(s1); 
 		cloop.addNode(s2); 
 		cloop.addNode(s3);
-		//至此，已经将环建好。服务器映射到环里，fingerTable也弄好了。
+		//至此，已经将环建好。服务器映射到环里。
+		//寻找一个叫做abc.txt的文件(该)放在哪个服务器
+		System.out.println(cloop.findServerByFile("abc.txt"));
+		
 		 	
 	
 		
