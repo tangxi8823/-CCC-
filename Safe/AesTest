@@ -12,14 +12,33 @@ public class AesTest {
 		int k=34131231;//k是密匙
 		Aes aes = new Aes(k);//输入密匙创建Aes算法
 		//--------加密-------------------------
-		String plainText = "1wdq2w32242scsdvcszv3rfefeawfew";//明文
+		String plainText = "1wdq2w32guyfc6766gyugyyg8778gyugb242scsdvcszv3rfefeawfew";//明文
 		byte[] buffer[]=aes.cipherone(plainText);
+		System.out.println("???"+buffer[3].length);
+		int l=buffer.length;
+		byte[] a= new byte[l*16];
+		int m=0;
+		for(int i=0;i<l;i++)
+		{
+			for(int j=0;j<16;j++)
+			{
+				a[m++]=buffer[i][j];
+			}
+		}
 		//--------解密-------------------------
-		
+		int l1=a.length/16;
+		byte[] buffer1[]=new byte[l1][16];
+		m=0;
+		for(int i=0;i<l;i++)
+		{
+			for(int j=0;j<16;j++)
+			{
+				buffer1[i][j]=a[m++];
+			}
+		}
 		String val = new String();
-		val=aes.invCipherone(buffer);
+		val=aes.invCipherone(buffer1);
 		System.out.println("invCipher cipherText : "+val);
 		
 	}
 }
-
