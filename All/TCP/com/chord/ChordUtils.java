@@ -13,7 +13,7 @@ public class ChordUtils {
         int r=-1;
         try {
         	// 得到MD5的instance
-            MessageDigest md = MessageDigest.getInstance("SHA-1");
+            MessageDigest md = MessageDigest.getInstance("MD5");
             md.reset();
             //md5会返回hash值（byte数组） 16*8=128位
             byte[] init_code = md.digest(input.getBytes());
@@ -35,5 +35,16 @@ public class ChordUtils {
                 | ((src[2] & 0xFF)<<16)   
                 | ((src[3] & 0xFF)<<24));  
         return value;  
-    }  
+    }
+
+    //冲突解决
+	public static int checkCollision(int initIdx, byte[] isFixed) {
+		int finalIdx=initIdx;
+		while(isFixed[finalIdx]==1) {
+			finalIdx++;
+			//取模
+			finalIdx=finalIdx%16;
+		}
+		return finalIdx;
+	}  
 }
