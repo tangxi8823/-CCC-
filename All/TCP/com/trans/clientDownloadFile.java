@@ -18,36 +18,39 @@ public class clientDownloadFile implements Runnable {
 
     @Override
     public void run() {
-        //io流封装文件名
-        try {
-            InputStream is = new ByteArrayInputStream(this.fileName.getBytes(StandardCharsets.UTF_8));
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        //接受数据写入到文件
 
-            //输出流
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-            String line;
-            while ((line = br.readLine()) != null) {
-                bw.write(line);
-                bw.newLine();
-                bw.flush();
+            try {
+
+                //Socket socket = new Socket(TCPproperties.ip,60090);
+
+                //解决名称冲突问题
+                int count = 1;
+                File file = new File("C:/Users/zxcvb/Desktop/images/Copy["+count+"].txt");
+                while (file.exists()){
+                    count++;
+                    file = new File("C:/Users/zxcvb/Desktop/images/Copy["+count+"].txt");
+                }
+                BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+                java.lang.String line;
+                System.out.println("6.file info ");
+                while ((line=br.readLine())!=null){
+                    bw.write(line);
+                    System.out.print(line+" ");
+                    bw.newLine();
+                    bw.flush();
+                }
+                //给出反馈
+                BufferedWriter bwServer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+                bwServer.write("file is downloaded");
+                bwServer.newLine();
+                bwServer.flush();
+                socket.shutdownOutput();
+            }catch (IOException e){
+                e.printStackTrace();
             }
-            //终止输出，这样输出流才能给服务器端
-            socket.shutdownOutput();
-
-            //接受加密的文件信息
-            //客户端接收反馈
-            BufferedReader brClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            String data = brClient.readLine();
-            System.out.println("服务器的明文："+data);
-
-            //释放资源
-            socket.close();
-
-            br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
 
-}
